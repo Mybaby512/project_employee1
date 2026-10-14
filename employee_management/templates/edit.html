@@ -1,0 +1,853 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<style>
+    .edit-page {
+        max-width: 1050px;
+        margin: 0 auto;
+        padding: 30px 24px 50px;
+    }
+
+    /* ================= HEADER ================= */
+
+    .edit-header {
+        margin-bottom: 24px;
+    }
+
+    .edit-title {
+        margin: 0;
+        font-size: 29px;
+        font-weight: 800;
+        color: #1f2937;
+    }
+
+    .edit-subtitle {
+        margin: 7px 0 0;
+        color: #6b7280;
+        font-size: 14px;
+    }
+
+    /* ================= CARD ================= */
+
+    .form-card {
+        background: #ffffff;
+        border: 1px solid #e5e7eb;
+        border-radius: 15px;
+        padding: 28px;
+        box-shadow: 0 4px 18px rgba(15, 23, 42, 0.05);
+        margin-bottom: 20px;
+    }
+
+    .section-title {
+        display: flex;
+        align-items: center;
+        gap: 9px;
+        margin: 0 0 22px;
+        padding-bottom: 14px;
+        border-bottom: 1px solid #eef0f2;
+        font-size: 17px;
+        font-weight: 800;
+        color: #1f2937;
+    }
+
+    .section-icon {
+        width: 34px;
+        height: 34px;
+        border-radius: 9px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #eff6ff;
+        color: #2563eb;
+    }
+
+    /* ================= FORM ================= */
+
+    .form-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 20px 22px;
+    }
+
+    .form-group {
+        width: 100%;
+    }
+
+    .form-group.full-width {
+        grid-column: 1 / -1;
+    }
+
+    .form-label {
+        display: block;
+        margin-bottom: 8px;
+        color: #374151;
+        font-size: 13px;
+        font-weight: 700;
+    }
+
+    .required {
+        color: #dc2626;
+    }
+
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+        width: 100%;
+        box-sizing: border-box;
+        padding: 11px 13px;
+        border: 1px solid #d1d5db;
+        border-radius: 9px;
+        background: #ffffff;
+        color: #1f2937;
+        font-size: 14px;
+        outline: none;
+        transition: 0.2s ease;
+    }
+
+    .form-group input,
+    .form-group select {
+        min-height: 44px;
+    }
+
+    .form-group textarea {
+        min-height: 110px;
+        resize: vertical;
+    }
+
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
+        border-color: #60a5fa;
+        box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.10);
+    }
+
+    .form-help {
+        display: block;
+        margin-top: 6px;
+        color: #9ca3af;
+        font-size: 12px;
+    }
+
+    .error-message {
+        margin-top: 6px;
+        color: #dc2626;
+        font-size: 12px;
+    }
+
+    /* ================= IMAGE CARD ================= */
+
+    .image-management {
+        border: 1px solid #e5e7eb;
+        border-radius: 12px;
+        background: #f9fafb;
+        padding: 18px;
+    }
+
+    .image-management-title {
+        margin: 0 0 14px;
+        color: #374151;
+        font-size: 14px;
+        font-weight: 800;
+    }
+
+    .current-image-area {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        padding: 14px;
+        margin-bottom: 15px;
+        border: 1px solid #e5e7eb;
+        border-radius: 10px;
+        background: white;
+    }
+
+    .current-image {
+        width: 80px;
+        height: 80px;
+        border-radius: 12px;
+        object-fit: cover;
+        border: 1px solid #e5e7eb;
+        flex-shrink: 0;
+    }
+
+    .current-image-info {
+        min-width: 0;
+    }
+
+    .current-image-label {
+        margin: 0 0 5px;
+        color: #374151;
+        font-size: 13px;
+        font-weight: 700;
+    }
+
+    .current-image-link {
+        display: block;
+        max-width: 100%;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        color: #2563eb;
+        font-size: 12px;
+        text-decoration: none;
+    }
+
+    .current-image-link:hover {
+        text-decoration: underline;
+    }
+
+    .no-image {
+        width: 80px;
+        height: 80px;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #f3f4f6;
+        color: #9ca3af;
+        flex-shrink: 0;
+    }
+
+    .upload-area {
+        padding: 15px;
+        border: 1px dashed #cbd5e1;
+        border-radius: 10px;
+        background: white;
+    }
+
+    .upload-label {
+        display: block;
+        margin-bottom: 8px;
+        color: #374151;
+        font-size: 13px;
+        font-weight: 700;
+    }
+
+    .clear-image {
+        display: flex;
+        align-items: center;
+        gap: 7px;
+        margin-top: 11px;
+        color: #6b7280;
+        font-size: 12px;
+    }
+
+    .clear-image input {
+        width: auto;
+        min-height: auto;
+    }
+
+    /* ================= BUTTONS ================= */
+
+    .action-footer {
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        gap: 10px;
+        padding-top: 20px;
+        margin-top: 8px;
+        border-top: 1px solid #eef0f2;
+    }
+
+    .btn-cancel,
+    .btn-save {
+        min-height: 43px;
+        padding: 0 18px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        border-radius: 9px;
+        font-size: 13px;
+        font-weight: 700;
+        text-decoration: none;
+        cursor: pointer;
+        transition: 0.2s ease;
+    }
+
+    .btn-cancel {
+        border: 1px solid #d1d5db;
+        background: #ffffff;
+        color: #4b5563;
+    }
+
+    .btn-cancel:hover {
+        background: #f3f4f6;
+        color: #374151;
+    }
+
+    .btn-save {
+        border: 1px solid #2563eb;
+        background: #2563eb;
+        color: white;
+    }
+
+    .btn-save:hover {
+        background: #1d4ed8;
+    }
+
+    /* ================= RESPONSIVE ================= */
+
+    @media (max-width: 700px) {
+
+        .edit-page {
+            padding: 22px 14px 40px;
+        }
+
+        .form-card {
+            padding: 20px;
+        }
+
+        .form-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .form-group.full-width {
+            grid-column: auto;
+        }
+
+        .current-image-area {
+            align-items: flex-start;
+        }
+
+        .action-footer {
+            flex-direction: column-reverse;
+            align-items: stretch;
+        }
+
+        .btn-cancel,
+        .btn-save {
+            width: 100%;
+        }
+    }
+</style>
+
+
+<div class="edit-page">
+
+    <!-- HEADER -->
+    <div class="edit-header">
+        <h1 class="edit-title">
+            แก้ไขข้อมูลพนักงาน
+        </h1>
+
+        <p class="edit-subtitle">
+            แก้ไขและอัปเดตข้อมูลของ {{ employee.name }}
+        </p>
+    </div>
+
+
+    <form method="post" enctype="multipart/form-data">
+
+        {% csrf_token %}
+
+
+        <!-- ================= PERSONAL ================= -->
+
+        <div class="form-card">
+
+            <h2 class="section-title">
+
+                <span class="section-icon">
+                    <svg width="18" height="18"
+                         viewBox="0 0 24 24"
+                         fill="none"
+                         stroke="currentColor"
+                         stroke-width="2">
+                        <circle cx="12" cy="8" r="4"></circle>
+                        <path d="M4 21c0-4 3.5-7 8-7s8 3 8 7"></path>
+                    </svg>
+                </span>
+
+                ข้อมูลส่วนตัว
+
+            </h2>
+
+
+            <div class="form-grid">
+
+                <div class="form-group full-width">
+
+                    <label class="form-label">
+                        ชื่อ-นามสกุล <span class="required">*</span>
+                    </label>
+
+                    {{ form.name }}
+
+                    {% for error in form.name.errors %}
+                        <div class="error-message">
+                            {{ error }}
+                        </div>
+                    {% endfor %}
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label class="form-label">
+                        เบอร์โทรศัพท์
+                    </label>
+
+                    {{ form.phone }}
+
+                    {% for error in form.phone.errors %}
+                        <div class="error-message">
+                            {{ error }}
+                        </div>
+                    {% endfor %}
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label class="form-label">
+                        อีเมล
+                    </label>
+
+                    {{ form.email }}
+
+                    {% for error in form.email.errors %}
+                        <div class="error-message">
+                            {{ error }}
+                        </div>
+                    {% endfor %}
+
+                </div>
+
+
+                <div class="form-group full-width">
+
+                    <label class="form-label">
+                        เลขบัตรประจำตัวประชาชน
+                    </label>
+
+                    {{ form.id_card }}
+
+                    {% for error in form.id_card.errors %}
+                        <div class="error-message">
+                            {{ error }}
+                        </div>
+                    {% endfor %}
+
+                </div>
+
+
+                <div class="form-group full-width">
+
+                    <label class="form-label">
+                        ที่อยู่
+                    </label>
+
+                    {{ form.address }}
+
+                    {% for error in form.address.errors %}
+                        <div class="error-message">
+                            {{ error }}
+                        </div>
+                    {% endfor %}
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- ================= EMPLOYMENT ================= -->
+
+        <div class="form-card">
+
+            <h2 class="section-title">
+
+                <span class="section-icon">
+                    <svg width="18" height="18"
+                         viewBox="0 0 24 24"
+                         fill="none"
+                         stroke="currentColor"
+                         stroke-width="2">
+                        <rect x="3" y="7" width="18" height="13" rx="2"></rect>
+                        <path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                    </svg>
+                </span>
+
+                ข้อมูลการทำงาน
+
+            </h2>
+
+
+            <div class="form-grid">
+
+                <div class="form-group">
+
+                    <label class="form-label">
+                        ตำแหน่ง
+                    </label>
+
+                    {{ form.position }}
+
+                    {% for error in form.position.errors %}
+                        <div class="error-message">
+                            {{ error }}
+                        </div>
+                    {% endfor %}
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label class="form-label">
+                        แผนก
+                    </label>
+
+                    {{ form.department }}
+
+                    {% for error in form.department.errors %}
+                        <div class="error-message">
+                            {{ error }}
+                        </div>
+                    {% endfor %}
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label class="form-label">
+                        ผู้จัดการ / ผู้บังคับบัญชา
+                    </label>
+
+                    {{ form.manager }}
+
+                    {% for error in form.manager.errors %}
+                        <div class="error-message">
+                            {{ error }}
+                        </div>
+                    {% endfor %}
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label class="form-label">
+                        ประเภทการจ้าง
+                    </label>
+
+                    {{ form.employment_type }}
+
+                    {% for error in form.employment_type.errors %}
+                        <div class="error-message">
+                            {{ error }}
+                        </div>
+                    {% endfor %}
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label class="form-label">
+                        วันเริ่มงาน
+                    </label>
+
+                    {{ form.start_date }}
+
+                    {% for error in form.start_date.errors %}
+                        <div class="error-message">
+                            {{ error }}
+                        </div>
+                    {% endfor %}
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label class="form-label">
+                        ระยะเวลาทดลองงาน (เดือน)
+                    </label>
+
+                    {{ form.probation_months }}
+
+                    {% for error in form.probation_months.errors %}
+                        <div class="error-message">
+                            {{ error }}
+                        </div>
+                    {% endfor %}
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- ================= SALARY ================= -->
+
+        <div class="form-card">
+
+            <h2 class="section-title">
+
+                <span class="section-icon">
+                    <svg width="18" height="18"
+                         viewBox="0 0 24 24"
+                         fill="none"
+                         stroke="currentColor"
+                         stroke-width="2">
+                        <rect x="2" y="5" width="20" height="14" rx="2"></rect>
+                        <path d="M16 12h.01M8 12h.01"></path>
+                    </svg>
+                </span>
+
+                ข้อมูลเงินเดือน
+
+            </h2>
+
+
+            <div class="form-grid">
+
+                <div class="form-group">
+
+                    <label class="form-label">
+                        เงินเดือน
+                    </label>
+
+                    {{ form.salary }}
+
+                    {% for error in form.salary.errors %}
+                        <div class="error-message">
+                            {{ error }}
+                        </div>
+                    {% endfor %}
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label class="form-label">
+                        ค่าล่วงเวลาต่อชั่วโมง
+                    </label>
+
+                    {{ form.overtime_rate }}
+
+                    {% for error in form.overtime_rate.errors %}
+                        <div class="error-message">
+                            {{ error }}
+                        </div>
+                    {% endfor %}
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label class="form-label">
+                        รอบการจ่ายเงิน
+                    </label>
+
+                    {{ form.pay_period }}
+
+                    {% for error in form.pay_period.errors %}
+                        <div class="error-message">
+                            {{ error }}
+                        </div>
+                    {% endfor %}
+
+                </div>
+
+
+                <div class="form-group full-width">
+
+                    <label class="form-label">
+                        สิทธิประโยชน์พิเศษ
+                    </label>
+
+                    {{ form.benefits }}
+
+                    {% for error in form.benefits.errors %}
+                        <div class="error-message">
+                            {{ error }}
+                        </div>
+                    {% endfor %}
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- ================= IMAGE ================= -->
+
+        <div class="form-card">
+
+            <h2 class="section-title">
+
+                <span class="section-icon">
+                    <svg width="18" height="18"
+                         viewBox="0 0 24 24"
+                         fill="none"
+                         stroke="currentColor"
+                         stroke-width="2">
+                        <rect x="3" y="3" width="18" height="18" rx="2"></rect>
+                        <circle cx="8.5" cy="8.5" r="1.5"></circle>
+                        <path d="m21 15-5-5L5 21"></path>
+                    </svg>
+                </span>
+
+                รูปภาพพนักงาน
+
+            </h2>
+
+
+            <div class="image-management">
+
+                <p class="image-management-title">
+                    จัดการรูปภาพ
+                </p>
+
+
+                <!-- CURRENT IMAGE -->
+
+                <div class="current-image-area">
+
+                    {% if employee.image %}
+
+                        <img
+                            src="{{ employee.image.url }}"
+                            alt="{{ employee.name }}"
+                            class="current-image"
+                        >
+
+                        <div class="current-image-info">
+
+                            <p class="current-image-label">
+                                รูปภาพปัจจุบัน
+                            </p>
+
+                            <a
+                                href="{{ employee.image.url }}"
+                                target="_blank"
+                                class="current-image-link"
+                            >
+                                ดูรูปภาพปัจจุบัน
+                            </a>
+
+                        </div>
+
+                    {% else %}
+
+                        <div class="no-image">
+
+                            <svg width="30" height="30"
+                                 viewBox="0 0 24 24"
+                                 fill="none"
+                                 stroke="currentColor"
+                                 stroke-width="1.5">
+                                <circle cx="8.5" cy="8.5" r="1.5"></circle>
+                                <path d="M21 15l-5-5L5 21"></path>
+                                <rect x="3" y="3" width="18" height="18" rx="2"></rect>
+                            </svg>
+
+                        </div>
+
+                        <div class="current-image-info">
+
+                            <p class="current-image-label">
+                                ยังไม่มีรูปภาพ
+                            </p>
+
+                            <span class="form-help">
+                                สามารถเพิ่มรูปภาพใหม่ได้ด้านล่าง
+                            </span>
+
+                        </div>
+
+                    {% endif %}
+
+                </div>
+
+
+                <!-- NEW IMAGE -->
+
+                <div class="upload-area">
+
+                    <label class="upload-label">
+                        อัปโหลดรูปภาพใหม่
+                    </label>
+
+                    {{ form.image }}
+
+                    {% for error in form.image.errors %}
+                        <div class="error-message">
+                            {{ error }}
+                        </div>
+                    {% endfor %}
+
+
+                    {% if employee.image %}
+                        <label class="clear-image">
+                            {{ form.image.clear }}
+                            ล้างรูปภาพปัจจุบัน
+                        </label>
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- ================= ACTION ================= -->
+
+        <div class="form-card">
+
+            <div class="action-footer">
+
+                <a
+                    href="{% url 'index' %}"
+                    class="btn-cancel"
+                >
+                    <svg width="17" height="17"
+                         viewBox="0 0 24 24"
+                         fill="none"
+                         stroke="currentColor"
+                         stroke-width="2.2">
+                        <path d="M18 6 6 18"></path>
+                        <path d="m6 6 12 12"></path>
+                    </svg>
+
+                    ยกเลิก
+                </a>
+
+
+                <button
+                    type="submit"
+                    class="btn-save"
+                >
+                    <svg width="17" height="17"
+                         viewBox="0 0 24 24"
+                         fill="none"
+                         stroke="currentColor"
+                         stroke-width="2.4">
+                        <path d="m5 12 4 4L19 6"></path>
+                    </svg>
+
+                    บันทึกการเปลี่ยนแปลง
+                </button>
+
+            </div>
+
+        </div>
+
+    </form>
+
+</div>
+
+{% endblock %}

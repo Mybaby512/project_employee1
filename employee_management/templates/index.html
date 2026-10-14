@@ -1,0 +1,1006 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    ข้อมูลพนักงาน | ระบบจัดการข้อมูลพนักงาน
+{% endblock %}
+
+{% block content %}
+
+<style>
+
+    /* =========================================
+       EMPLOYEE PAGE
+    ========================================= */
+
+    .employee-page {
+        max-width: 1200px;
+        margin: 35px auto;
+        padding: 0 20px;
+    }
+
+
+    /* =========================================
+       HEADER
+    ========================================= */
+
+    .employee-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 20px;
+        margin-bottom: 25px;
+        padding-bottom: 18px;
+        border-bottom: 1px solid #e5e7eb;
+    }
+
+    .employee-header-content h1 {
+        margin: 0 0 6px;
+        color: #183b68;
+        font-size: 30px;
+        font-weight: 700;
+        letter-spacing: -0.3px;
+    }
+
+    .employee-header-content p {
+        margin: 0;
+        color: #64748b;
+        font-size: 15px;
+    }
+
+
+    /* =========================================
+       ADD EMPLOYEE BUTTON
+    ========================================= */
+
+    .add-employee-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        padding: 11px 18px;
+        background: #1769e0;
+        color: #ffffff;
+        text-decoration: none;
+        border-radius: 9px;
+        font-size: 14px;
+        font-weight: 600;
+        box-shadow: 0 4px 12px rgba(23, 105, 224, 0.18);
+        transition: all 0.2s ease;
+        white-space: nowrap;
+    }
+
+    .add-employee-btn:hover {
+        background: #0d56bd;
+        color: #ffffff;
+        transform: translateY(-1px);
+        box-shadow: 0 6px 16px rgba(23, 105, 224, 0.25);
+    }
+
+
+    /* =========================================
+       SEARCH
+    ========================================= */
+
+    .search-card {
+        background: #ffffff;
+        border: 1px solid #e5e7eb;
+        border-radius: 12px;
+        padding: 18px;
+        margin-bottom: 22px;
+        box-shadow: 0 3px 12px rgba(15, 23, 42, 0.04);
+    }
+
+    .search-form {
+        display: flex;
+        width: 100%;
+    }
+
+    .search-input-group {
+        position: relative;
+        width: 100%;
+    }
+
+    .search-icon {
+        position: absolute;
+        left: 14px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #94a3b8;
+        font-size: 17px;
+        pointer-events: none;
+    }
+
+    .search-input {
+        width: 100%;
+        height: 45px;
+        box-sizing: border-box;
+        padding: 0 45px 0 42px;
+        border: 1px solid #d1d5db;
+        border-radius: 9px;
+        background: #ffffff;
+        color: #1f2937;
+        font-size: 14px;
+        outline: none;
+        transition: all 0.2s ease;
+    }
+
+    .search-input::placeholder {
+        color: #9ca3af;
+    }
+
+    .search-input:focus {
+        border-color: #1769e0;
+        box-shadow: 0 0 0 3px rgba(23, 105, 224, 0.10);
+    }
+
+    .clear-search {
+        position: absolute;
+        right: 13px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #94a3b8;
+        text-decoration: none;
+        font-size: 17px;
+    }
+
+    .clear-search:hover {
+        color: #475569;
+    }
+
+
+    /* =========================================
+       EMPLOYEE CARD CONTAINER
+    ========================================= */
+
+    .employee-card-container {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 20px;
+        width: 100%;
+    }
+
+
+    /* =========================================
+       EMPLOYEE CARD
+    ========================================= */
+
+    .employee-card {
+        background: #ffffff;
+        border: 1px solid #e5e7eb;
+        border-radius: 16px;
+        padding: 25px 20px 18px;
+        min-height: 405px;
+        display: flex;
+        flex-direction: column;
+        text-align: center;
+        box-shadow: 0 5px 20px rgba(15, 23, 42, 0.05);
+        transition:
+            transform 0.2s ease,
+            box-shadow 0.2s ease,
+            border-color 0.2s ease;
+    }
+
+    .employee-card:hover {
+        transform: translateY(-5px);
+        border-color: #dbeafe;
+        box-shadow: 0 12px 30px rgba(15, 23, 42, 0.10);
+    }
+
+
+    /* =========================================
+       PROFILE IMAGE
+    ========================================= */
+
+    .employee-card-image {
+        width: 95px;
+        height: 95px;
+        margin: 0 auto 15px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 4px solid #f8fafc;
+        box-shadow: 0 4px 14px rgba(15, 23, 42, 0.10);
+    }
+
+    .employee-card-image-placeholder {
+        width: 95px;
+        height: 95px;
+        margin: 0 auto 15px;
+        border-radius: 50%;
+        background: #eaf2ff;
+        color: #1769e0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: 4px solid #f8fafc;
+        font-size: 38px;
+    }
+
+
+    /* =========================================
+       NAME + EMAIL
+    ========================================= */
+
+    .employee-card-name {
+        color: #111827;
+        font-size: 17px;
+        font-weight: 700;
+        line-height: 1.4;
+        margin-bottom: 4px;
+    }
+
+    .employee-card-email {
+        color: #94a3b8;
+        font-size: 12px;
+        min-height: 18px;
+        word-break: break-word;
+    }
+
+
+    /* =========================================
+       DETAILS
+    ========================================= */
+
+    .employee-card-details {
+        margin-top: 20px;
+        padding-top: 17px;
+        border-top: 1px solid #eef2f7;
+        text-align: left;
+    }
+
+    .employee-detail {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+        padding: 7px 0;
+    }
+
+    .employee-detail-label {
+        color: #94a3b8;
+        font-size: 12px;
+        white-space: nowrap;
+    }
+
+    .employee-detail-value {
+        color: #475569;
+        font-size: 12px;
+        font-weight: 600;
+        text-align: right;
+    }
+
+
+    /* =========================================
+       POSITION BADGE
+    ========================================= */
+
+    .position-badge {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        max-width: 170px;
+        padding: 5px 10px;
+        background: #eff6ff;
+        color: #1d4ed8;
+        border-radius: 999px;
+        font-size: 11px;
+        font-weight: 700;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+
+    /* =========================================
+       SALARY
+    ========================================= */
+
+    .salary-text {
+        color: #166534;
+        font-size: 13px;
+        font-weight: 700;
+    }
+
+
+    /* =========================================
+       EMPLOYMENT STATUS
+    ========================================= */
+
+    .status-badge {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 5px 10px;
+        border-radius: 999px;
+        font-size: 10px;
+        font-weight: 700;
+        white-space: nowrap;
+    }
+
+    .status-active {
+        background: #dcfce7;
+        color: #15803d;
+    }
+
+    .status-contract {
+        background: #fef3c7;
+        color: #b45309;
+    }
+
+    .status-intern {
+        background: #dbeafe;
+        color: #1d4ed8;
+    }
+
+    .status-empty {
+        background: #f1f5f9;
+        color: #94a3b8;
+    }
+
+
+    /* =========================================
+       ACTION BUTTONS
+    ========================================= */
+
+    .employee-card-actions {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+        margin-top: auto;
+        padding-top: 18px;
+    }
+
+    .employee-card-actions form {
+        width: 100%;
+        margin: 0;
+    }
+
+    .employee-action-btn {
+        width: 100%;
+        height: 38px;
+        box-sizing: border-box;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+        border-radius: 8px;
+        border: none;
+        text-decoration: none;
+        font-size: 12px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s ease;
+    }
+
+
+    /* =========================================
+       EDIT
+    ========================================= */
+
+    .employee-action-edit {
+        background: #eff6ff;
+        color: #2563eb;
+    }
+
+    .employee-action-edit:hover {
+        background: #2563eb;
+        color: #ffffff;
+    }
+
+
+    /* =========================================
+       DELETE
+    ========================================= */
+
+    .employee-action-delete {
+        background: #fef2f2;
+        color: #dc2626;
+    }
+
+    .employee-action-delete:hover {
+        background: #dc2626;
+        color: #ffffff;
+    }
+
+
+    /* =========================================
+       EMPTY STATE
+    ========================================= */
+
+    .empty-state {
+        grid-column: 1 / -1;
+        padding: 70px 30px;
+        text-align: center;
+        background: #ffffff;
+        border: 1px dashed #dbe2ea;
+        border-radius: 16px;
+    }
+
+    .empty-icon {
+        width: 82px;
+        height: 82px;
+        margin: 0 auto 20px;
+        border-radius: 50%;
+        background: #f1f5f9;
+        color: #94a3b8;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 38px;
+    }
+
+    .empty-state h3 {
+        margin: 0 0 8px;
+        color: #334155;
+        font-size: 20px;
+        font-weight: 700;
+    }
+
+    .empty-state p {
+        margin: 0 auto 22px;
+        max-width: 430px;
+        color: #94a3b8;
+        font-size: 14px;
+        line-height: 1.7;
+    }
+
+    .empty-add-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 7px;
+        padding: 10px 17px;
+        background: #1769e0;
+        color: #ffffff;
+        text-decoration: none;
+        border-radius: 8px;
+        font-size: 14px;
+        font-weight: 600;
+        transition: 0.2s;
+    }
+
+    .empty-add-btn:hover {
+        background: #0d56bd;
+        color: #ffffff;
+    }
+
+
+    /* =========================================
+       PAGINATION
+    ========================================= */
+
+    .pagination {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 6px;
+        padding: 20px;
+        margin-top: 20px;
+    }
+
+    .page-link {
+        min-width: 34px;
+        height: 34px;
+        padding: 0 10px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        box-sizing: border-box;
+        border: 1px solid #e2e8f0;
+        border-radius: 7px;
+        color: #475569;
+        text-decoration: none;
+        font-size: 13px;
+        background: #ffffff;
+    }
+
+    .page-link:hover {
+        background: #f8fafc;
+        border-color: #cbd5e1;
+        color: #2563eb;
+    }
+
+    .page-current {
+        background: #2563eb;
+        color: #ffffff;
+        border-color: #2563eb;
+    }
+
+
+    /* =========================================
+       RESPONSIVE
+    ========================================= */
+
+    @media (max-width: 1000px) {
+
+        .employee-card-container {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+    }
+
+
+    @media (max-width: 700px) {
+
+        .employee-page {
+            margin: 20px auto;
+            padding: 0 12px;
+        }
+
+        .employee-header {
+            align-items: flex-start;
+            flex-direction: column;
+        }
+
+        .employee-header-content h1 {
+            font-size: 25px;
+        }
+
+        .add-employee-btn {
+            width: 100%;
+            box-sizing: border-box;
+            justify-content: center;
+        }
+
+        .search-card {
+            padding: 14px;
+        }
+
+        .employee-card-container {
+            grid-template-columns: 1fr;
+            gap: 15px;
+        }
+
+        .employee-card {
+            min-height: 390px;
+        }
+
+        .empty-state {
+            padding: 55px 20px;
+        }
+    }
+
+
+    @media (max-width: 480px) {
+
+        .employee-header-content h1 {
+            font-size: 23px;
+        }
+
+        .employee-header-content p {
+            font-size: 13px;
+        }
+
+        .employee-card {
+            padding: 22px 17px 17px;
+        }
+
+        .employee-card-image,
+        .employee-card-image-placeholder {
+            width: 85px;
+            height: 85px;
+        }
+
+        .employee-card-name {
+            font-size: 16px;
+        }
+
+        .employee-card-actions {
+            grid-template-columns: 1fr 1fr;
+        }
+    }
+
+</style>
+
+
+<div class="employee-page">
+
+
+    <!-- =========================================
+         HEADER
+    ========================================== -->
+
+    <div class="employee-header">
+
+        <div class="employee-header-content">
+
+            <h1>
+                <i class="bi bi-people-fill"></i>
+                ข้อมูลพนักงาน
+            </h1>
+
+            <p>
+                จัดการข้อมูลพนักงานภายในบริษัท
+            </p>
+
+        </div>
+
+
+        <a
+            href="{% url 'create_employee' %}"
+            class="add-employee-btn"
+        >
+
+            <i class="bi bi-person-plus-fill"></i>
+
+            เพิ่มพนักงาน
+
+        </a>
+
+    </div>
+
+
+    <!-- =========================================
+         SEARCH
+    ========================================== -->
+
+    <div class="search-card">
+
+        <form
+            method="get"
+            action="{% url 'index' %}"
+            class="search-form"
+        >
+
+            <div class="search-input-group">
+
+                <span class="search-icon">
+                    <i class="bi bi-search"></i>
+                </span>
+
+
+                <input
+                    type="text"
+                    name="search"
+                    value="{{ search|default:'' }}"
+                    class="search-input"
+                    placeholder="ค้นหาชื่อพนักงาน ตำแหน่ง แผนก..."
+                    autocomplete="off"
+                >
+
+
+                {% if search %}
+
+                    <a
+                        href="{% url 'index' %}"
+                        class="clear-search"
+                        title="ล้างการค้นหา"
+                    >
+                        <i class="bi bi-x-circle-fill"></i>
+                    </a>
+
+                {% endif %}
+
+            </div>
+
+        </form>
+
+    </div>
+
+
+    <!-- =========================================
+         EMPLOYEE CARDS
+    ========================================== -->
+
+    <div class="employee-card-container">
+
+
+        {% if employees %}
+
+            {% for employee in employees %}
+
+                <div class="employee-card">
+
+
+                    <!-- PROFILE IMAGE -->
+
+                    {% if employee.image %}
+
+                        <img
+                            src="{{ employee.image.url }}"
+                            alt="{{ employee.name }}"
+                            class="employee-card-image"
+                        >
+
+                    {% else %}
+
+                        <div class="employee-card-image-placeholder">
+
+                            <i class="bi bi-person-fill"></i>
+
+                        </div>
+
+                    {% endif %}
+
+
+                    <!-- NAME -->
+
+                    <div class="employee-card-name">
+                        {{ employee.name }}
+                    </div>
+
+
+                    <!-- EMAIL -->
+
+                    <div class="employee-card-email">
+
+                        {% if employee.email %}
+                            {{ employee.email }}
+                        {% else %}
+                            ไม่ระบุอีเมล
+                        {% endif %}
+
+                    </div>
+
+
+                    <!-- DETAILS -->
+
+                    <div class="employee-card-details">
+
+
+                        <!-- POSITION -->
+
+                        <div class="employee-detail">
+
+                            <span class="employee-detail-label">
+                                ตำแหน่ง
+                            </span>
+
+                            <span class="position-badge">
+                                {{ employee.position|default:"ไม่ระบุ" }}
+                            </span>
+
+                        </div>
+
+
+                        <!-- DEPARTMENT -->
+
+                        <div class="employee-detail">
+
+                            <span class="employee-detail-label">
+                                แผนก
+                            </span>
+
+                            <span class="employee-detail-value">
+                                {{ employee.department|default:"ไม่ระบุ" }}
+                            </span>
+
+                        </div>
+
+
+                        <!-- SALARY -->
+
+                        <div class="employee-detail">
+
+                            <span class="employee-detail-label">
+                                เงินเดือน
+                            </span>
+
+                            <span class="salary-text">
+                                {{ employee.salary|floatformat:2 }} บาท
+                            </span>
+
+                        </div>
+
+
+                        <!-- STATUS -->
+
+                        <div class="employee-detail">
+
+                            <span class="employee-detail-label">
+                                สถานะ
+                            </span>
+
+
+                            {% if employee.employment_type == "พนักงานประจำ" %}
+
+                                <span class="status-badge status-active">
+                                    พนักงานประจำ
+                                </span>
+
+
+                            {% elif employee.employment_type == "พนักงานสัญญาจ้าง" %}
+
+                                <span class="status-badge status-contract">
+                                    สัญญาจ้าง
+                                </span>
+
+
+                            {% elif employee.employment_type == "นักศึกษาฝึกงาน" %}
+
+                                <span class="status-badge status-intern">
+                                    ฝึกงาน
+                                </span>
+
+
+                            {% else %}
+
+                                <span class="status-badge status-empty">
+                                    ไม่ระบุ
+                                </span>
+
+                            {% endif %}
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- ACTION BUTTONS -->
+
+                    <div class="employee-card-actions">
+
+
+                        <!-- EDIT -->
+
+                        <a
+                            href="{% url 'edit_employee' employee.pk %}"
+                            class="employee-action-btn employee-action-edit"
+                        >
+
+                            <i class="bi bi-pencil-square"></i>
+
+                            แก้ไข
+
+                        </a>
+
+
+                        <!-- DELETE -->
+
+                        <form
+                            method="POST"
+                            action="{% url 'delete_employee' employee.pk %}"
+                            onsubmit="return confirm('คุณต้องการลบข้อมูลพนักงานคนนี้หรือไม่?');"
+                        >
+
+                            {% csrf_token %}
+
+                            <button
+                                type="submit"
+                                class="employee-action-btn employee-action-delete"
+                            >
+
+                                <i class="bi bi-trash3-fill"></i>
+
+                                ลบ
+
+                            </button>
+
+                        </form>
+
+
+                    </div>
+
+                </div>
+
+            {% endfor %}
+
+
+            <!-- =====================================
+                 PAGINATION
+            ====================================== -->
+
+            {% if employees.has_other_pages %}
+
+                <div class="pagination">
+
+
+                    {% if employees.has_previous %}
+
+                        <a
+                            href="?page={{ employees.previous_page_number }}{% if search %}&search={{ search|urlencode }}{% endif %}"
+                            class="page-link"
+                            title="หน้าก่อนหน้า"
+                        >
+
+                            <i class="bi bi-chevron-left"></i>
+
+                        </a>
+
+                    {% endif %}
+
+
+                    <span class="page-link page-current">
+                        {{ employees.number }}
+                    </span>
+
+
+                    {% if employees.has_next %}
+
+                        <a
+                            href="?page={{ employees.next_page_number }}{% if search %}&search={{ search|urlencode }}{% endif %}"
+                            class="page-link"
+                            title="หน้าถัดไป"
+                        >
+
+                            <i class="bi bi-chevron-right"></i>
+
+                        </a>
+
+                    {% endif %}
+
+
+                </div>
+
+            {% endif %}
+
+
+        {% else %}
+
+
+            <!-- =====================================
+                 EMPTY STATE
+            ====================================== -->
+
+            <div class="empty-state">
+
+
+                <div class="empty-icon">
+
+                    <i class="bi bi-person-x-fill"></i>
+
+                </div>
+
+
+                {% if search %}
+
+                    <h3>
+                        ไม่พบข้อมูลพนักงานที่ค้นหา
+                    </h3>
+
+
+                    <p>
+
+                        ไม่พบพนักงานที่ตรงกับ
+
+                        "<strong>{{ search }}</strong>"
+
+                        <br>
+
+                        ลองค้นหาด้วยคำอื่น
+                        หรือเพิ่มพนักงานใหม่
+
+                    </p>
+
+
+                {% else %}
+
+                    <h3>
+                        ไม่พบข้อมูลพนักงาน
+                    </h3>
+
+
+                    <p>
+
+                        ขณะนี้ยังไม่มีข้อมูลพนักงานในระบบ
+
+                        <br>
+
+                        เริ่มต้นด้วยการเพิ่มพนักงานใหม่
+
+                    </p>
+
+                {% endif %}
+
+
+                <a
+                    href="{% url 'create_employee' %}"
+                    class="empty-add-btn"
+                >
+
+                    <i class="bi bi-person-plus-fill"></i>
+
+                    เพิ่มพนักงาน
+
+                </a>
+
+
+            </div>
+
+        {% endif %}
+
+
+    </div>
+
+</div>
+
+{% endblock %}
+

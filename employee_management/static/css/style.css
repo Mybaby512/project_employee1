@@ -1,0 +1,455 @@
+/* =========================================================
+   EMPLOYEE CARD GRID
+========================================================= */
+
+.employee-grid {
+    display: grid;
+
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+
+    gap: 20px;
+
+    width: 100%;
+}
+
+
+/* =========================================================
+   EMPLOYEE CARD
+========================================================= */
+
+.employee-card {
+    position: relative;
+
+    background: #ffffff;
+
+    border: 1px solid #e5e7eb;
+
+    border-radius: 18px;
+
+    padding: 24px 20px 18px;
+
+    min-height: 390px;
+
+    display: flex;
+    flex-direction: column;
+
+    text-align: center;
+
+    box-shadow: 0 3px 12px rgba(15, 23, 42, 0.05);
+
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease,
+        border-color 0.2s ease;
+}
+
+.employee-card:hover {
+    transform: translateY(-5px);
+
+    border-color: #dbeafe;
+
+    box-shadow:
+        0 12px 30px rgba(15, 23, 42, 0.10);
+}
+
+
+/* =========================================================
+   PROFILE IMAGE
+========================================================= */
+
+.employee-card-image {
+    width: 96px;
+    height: 96px;
+
+    margin: 0 auto 15px;
+
+    border-radius: 50%;
+
+    object-fit: cover;
+
+    background: #f1f5f9;
+
+    border: 4px solid #ffffff;
+
+    box-shadow:
+        0 4px 15px rgba(15, 23, 42, 0.10);
+}
+
+
+/* =========================================================
+   PROFILE IMAGE - EMPTY
+========================================================= */
+
+.employee-card-image-empty {
+    width: 96px;
+    height: 96px;
+
+    margin: 0 auto 15px;
+
+    border-radius: 50%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: #eff6ff;
+
+    color: #60a5fa;
+
+    border: 4px solid #ffffff;
+
+    box-shadow:
+        0 4px 15px rgba(15, 23, 42, 0.08);
+}
+
+.employee-card-image-empty svg {
+    width: 38px;
+    height: 38px;
+}
+
+
+/* =========================================================
+   EMPLOYEE NAME
+========================================================= */
+
+.employee-card-name {
+    font-size: 16px;
+
+    font-weight: 800;
+
+    color: #1e293b;
+
+    line-height: 1.4;
+
+    margin-bottom: 3px;
+}
+
+.employee-card-email {
+    font-size: 11px;
+
+    color: #94a3b8;
+
+    word-break: break-word;
+
+    min-height: 18px;
+}
+
+
+/* =========================================================
+   DETAILS
+========================================================= */
+
+.employee-card-details {
+    width: 100%;
+
+    margin-top: 20px;
+
+    padding-top: 17px;
+
+    border-top: 1px solid #f1f5f9;
+
+    text-align: left;
+}
+
+
+/* =========================================================
+   DETAIL ROW
+========================================================= */
+
+.employee-detail-row {
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 10px;
+
+    padding: 7px 0;
+}
+
+.employee-detail-label {
+    color: #94a3b8;
+
+    font-size: 11px;
+
+    white-space: nowrap;
+}
+
+.employee-detail-value {
+    color: #334155;
+
+    font-size: 12px;
+
+    font-weight: 700;
+
+    text-align: right;
+
+    overflow: hidden;
+
+    text-overflow: ellipsis;
+
+    white-space: nowrap;
+}
+
+
+/* =========================================================
+   POSITION BADGE
+========================================================= */
+
+.employee-position {
+    display: inline-flex;
+
+    align-items: center;
+    justify-content: center;
+
+    max-width: 100%;
+
+    padding: 5px 11px;
+
+    border-radius: 999px;
+
+    background: #eff6ff;
+
+    color: #2563eb;
+
+    font-size: 10px;
+
+    font-weight: 800;
+
+    white-space: nowrap;
+
+    overflow: hidden;
+
+    text-overflow: ellipsis;
+}
+
+
+/* =========================================================
+   SALARY
+========================================================= */
+
+.employee-salary {
+    color: #16a34a;
+
+    font-size: 13px;
+
+    font-weight: 800;
+}
+
+
+/* =========================================================
+   CARD ACTIONS
+========================================================= */
+
+.employee-card-actions {
+    margin-top: auto;
+
+    padding-top: 18px;
+
+    display: grid;
+
+    grid-template-columns: 1fr 1fr;
+
+    gap: 8px;
+}
+
+
+/* =========================================================
+   ACTION BUTTON
+========================================================= */
+
+.employee-card-btn {
+    height: 38px;
+
+    border-radius: 9px;
+
+    display: inline-flex;
+
+    align-items: center;
+    justify-content: center;
+
+    gap: 6px;
+
+    border: 1px solid transparent;
+
+    font-size: 11px;
+
+    font-weight: 700;
+
+    cursor: pointer;
+
+    transition: all 0.2s ease;
+}
+
+.employee-card-btn svg {
+    width: 15px;
+    height: 15px;
+}
+
+
+/* =========================================================
+   HISTORY BUTTON
+========================================================= */
+
+.employee-action-history {
+    background: #f0fdf4;
+
+    color: #16a34a;
+
+    border-color: #dcfce7;
+}
+
+.employee-action-history:hover {
+    background: #16a34a;
+
+    color: #ffffff;
+
+    border-color: #16a34a;
+}
+
+
+/* =========================================================
+   EDIT BUTTON
+========================================================= */
+
+.employee-card-edit {
+    background: #eff6ff;
+
+    color: #2563eb;
+
+    border-color: #dbeafe;
+}
+
+.employee-card-edit:hover {
+    background: #2563eb;
+
+    color: #ffffff;
+
+    border-color: #2563eb;
+}
+
+
+/* =========================================================
+   DELETE BUTTON
+========================================================= */
+
+.employee-card-delete {
+    background: #fef2f2;
+
+    color: #dc2626;
+
+    border-color: #fee2e2;
+}
+
+.employee-card-delete:hover {
+    background: #dc2626;
+
+    color: #ffffff;
+
+    border-color: #dc2626;
+}
+
+
+/* =========================================================
+   EMPTY STATE
+========================================================= */
+
+.employee-empty {
+    grid-column: 1 / -1;
+
+    padding: 70px 20px;
+
+    text-align: center;
+
+    background: #ffffff;
+
+    border: 1px dashed #dbe1e8;
+
+    border-radius: 18px;
+}
+
+.employee-empty-icon {
+    width: 70px;
+    height: 70px;
+
+    margin: 0 auto 18px;
+
+    border-radius: 50%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: #f1f5f9;
+
+    color: #94a3b8;
+}
+
+.employee-empty-icon svg {
+    width: 32px;
+    height: 32px;
+}
+
+.employee-empty-title {
+    font-size: 15px;
+
+    font-weight: 800;
+
+    color: #1e293b;
+}
+
+.employee-empty-description {
+    margin-top: 5px;
+
+    font-size: 12px;
+
+    color: #94a3b8;
+}
+
+
+/* =========================================================
+   RESPONSIVE - 3 COLUMNS
+========================================================= */
+
+@media (max-width: 1200px) {
+
+    .employee-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+}
+
+
+/* =========================================================
+   RESPONSIVE - 2 COLUMNS
+========================================================= */
+
+@media (max-width: 900px) {
+
+    .employee-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+}
+
+
+/* =========================================================
+   RESPONSIVE - 1 COLUMN
+========================================================= */
+
+@media (max-width: 600px) {
+
+    .employee-grid {
+        grid-template-columns: 1fr;
+
+        gap: 15px;
+    }
+
+    .employee-card {
+        min-height: auto;
+
+        padding: 22px 18px 17px;
+    }
+
+}

@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        {% block title %}
+            ระบบ HR
+        {% endblock %}
+    </title>
+
+
+    <!-- =========================================
+         Bootstrap Icons
+    ========================================== -->
+
+    <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+    >
+
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+
+        body {
+            margin: 0;
+
+            font-family:
+                Arial,
+                "Noto Sans Thai",
+                sans-serif;
+
+            background: #f8fafc;
+
+            color: #1f2937;
+        }
+
+
+        /* =========================================
+           NAVBAR
+        ========================================= */
+
+        .navbar {
+            width: 100%;
+
+            height: 68px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            padding: 0 32px;
+
+            background: #ffffff;
+
+            border-bottom: 1px solid #e5e7eb;
+
+            box-shadow:
+                0 2px 10px
+                rgba(15, 23, 42, 0.06);
+
+            position: sticky;
+
+            top: 0;
+
+            z-index: 1000;
+        }
+
+
+        /* =========================================
+           LOGO / SYSTEM NAME
+        ========================================= */
+
+        .navbar-brand {
+            display: flex;
+
+            align-items: center;
+
+            gap: 10px;
+
+            color: #1e293b;
+
+            text-decoration: none;
+
+            font-size: 19px;
+
+            font-weight: 700;
+
+            white-space: nowrap;
+
+            flex-shrink: 0;
+
+            transition:
+                color 0.2s ease;
+        }
+
+
+        .navbar-brand:hover {
+            color: #2563eb;
+        }
+
+
+        .navbar-brand-icon {
+            width: 38px;
+
+            height: 38px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            background: #eff6ff;
+
+            color: #2563eb;
+
+            border-radius: 10px;
+
+            font-size: 19px;
+
+            flex-shrink: 0;
+        }
+
+
+        /* =========================================
+           NAVIGATION MENU
+        ========================================= */
+
+        .navbar-menu {
+            display: flex;
+
+            align-items: center;
+
+            justify-content: flex-end;
+
+            gap: 8px;
+
+            margin-left: auto;
+
+            white-space: nowrap;
+
+            flex-shrink: 0;
+        }
+
+
+        /* =========================================
+           MENU ITEM
+        ========================================= */
+
+        .navbar-link {
+            display: inline-flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            gap: 7px;
+
+            padding: 9px 13px;
+
+            color: #475569;
+
+            text-decoration: none;
+
+            border-radius: 8px;
+
+            font-size: 14px;
+
+            font-weight: 500;
+
+            white-space: nowrap;
+
+            transition:
+                background 0.2s ease,
+                color 0.2s ease,
+                transform 0.2s ease;
+        }
+
+
+        .navbar-link i {
+            font-size: 16px;
+
+            flex-shrink: 0;
+        }
+
+
+        .navbar-link:hover {
+            background: #f1f5f9;
+
+            color: #2563eb;
+        }
+
+
+        .navbar-link.active {
+            background: #eff6ff;
+
+            color: #2563eb;
+
+            font-weight: 600;
+        }
+
+
+        /* =========================================
+           LOGIN BUTTON
+        ========================================= */
+
+        .navbar-login {
+            display: inline-flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            gap: 7px;
+
+            padding: 9px 14px;
+
+            background: #eff6ff;
+
+            color: #2563eb;
+
+            border: 1px solid #bfdbfe;
+
+            border-radius: 8px;
+
+            text-decoration: none;
+
+            font-size: 14px;
+
+            font-weight: 600;
+
+            white-space: nowrap;
+
+            transition:
+                background 0.2s ease,
+                border-color 0.2s ease,
+                color 0.2s ease;
+        }
+
+
+        .navbar-login:hover {
+            background: #dbeafe;
+
+            border-color: #93c5fd;
+
+            color: #1d4ed8;
+        }
+
+
+        .navbar-login i {
+            font-size: 16px;
+        }
+
+
+        /* =========================================
+           REGISTER BUTTON
+        ========================================= */
+
+        .navbar-register {
+            display: inline-flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            gap: 7px;
+
+            padding: 9px 14px;
+
+            background: #2563eb;
+
+            color: #ffffff;
+
+            border: 1px solid #2563eb;
+
+            border-radius: 8px;
+
+            text-decoration: none;
+
+            font-size: 14px;
+
+            font-weight: 600;
+
+            white-space: nowrap;
+
+            transition:
+                background 0.2s ease,
+                border-color 0.2s ease;
+        }
+
+
+        .navbar-register:hover {
+            background: #1d4ed8;
+
+            border-color: #1d4ed8;
+
+            color: #ffffff;
+        }
+
+
+        .navbar-register i {
+            font-size: 16px;
+        }
+
+
+        /* =========================================
+           LOGOUT BUTTON
+        ========================================= */
+
+        .navbar-logout {
+            display: inline-flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            gap: 7px;
+
+            padding: 9px 14px;
+
+            background: #fff1f2;
+
+            color: #dc2626;
+
+            border: 1px solid #fecdd3;
+
+            border-radius: 8px;
+
+            text-decoration: none;
+
+            font-size: 14px;
+
+            font-weight: 600;
+
+            white-space: nowrap;
+
+            transition:
+                background 0.2s ease,
+                border-color 0.2s ease,
+                color 0.2s ease;
+        }
+
+
+        .navbar-logout i {
+            font-size: 16px;
+        }
+
+
+        .navbar-logout:hover {
+            background: #fee2e2;
+
+            border-color: #fca5a5;
+
+            color: #b91c1c;
+        }
+
+
+        /* =========================================
+           MAIN CONTENT
+        ========================================= */
+
+        .main-content {
+            width: 100%;
+
+            min-height:
+                calc(100vh - 68px);
+        }
+
+
+        /* =========================================
+           RESPONSIVE
+        ========================================= */
+
+        @media (max-width: 700px) {
+
+            .navbar {
+                padding: 0 15px;
+
+                height: 62px;
+            }
+
+
+            .navbar-brand {
+                font-size: 16px;
+            }
+
+
+            .navbar-brand-icon {
+                width: 34px;
+
+                height: 34px;
+
+                font-size: 17px;
+            }
+
+
+            .navbar-link,
+            .navbar-login,
+            .navbar-register,
+            .navbar-logout {
+
+                padding: 8px 9px;
+
+                font-size: 0;
+            }
+
+
+            .navbar-link i,
+            .navbar-login i,
+            .navbar-register i,
+            .navbar-logout i {
+
+                font-size: 17px;
+            }
+
+
+            .navbar-menu {
+                gap: 4px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- =========================================
+         NAVBAR
+    ========================================= -->
+
+    <nav class="navbar">
+
+
+        <!-- =====================================
+             LOGO / SYSTEM NAME
+        ====================================== -->
+
+        {% if user.is_authenticated %}
+
+            <a
+                href="{% url 'index' %}"
+                class="navbar-brand"
+            >
+
+                <span class="navbar-brand-icon">
+                    <i class="bi bi-people-fill"></i>
+                </span>
+
+                <span>
+                    ระบบ HR
+                </span>
+
+            </a>
+
+        {% else %}
+
+            <a
+                href="{% url 'login' %}"
+                class="navbar-brand"
+            >
+
+                <span class="navbar-brand-icon">
+                    <i class="bi bi-people-fill"></i>
+                </span>
+
+                <span>
+                    ระบบ HR
+                </span>
+
+            </a>
+
+        {% endif %}
+
+
+        <!-- =====================================
+             NAVIGATION
+        ====================================== -->
+
+        <div class="navbar-menu">
+
+
+            {% if user.is_authenticated %}
+
+
+                <!-- =================================
+                     EMPLOYEE
+                ================================== -->
+
+                <a
+                    href="{% url 'index' %}"
+                    class="
+                        navbar-link
+                        {% if request.resolver_match.url_name == 'index' %}
+                            active
+                        {% endif %}
+                    "
+                >
+
+                    <i class="bi bi-people"></i>
+
+                    <span>
+                        พนักงาน
+                    </span>
+
+                </a>
+
+
+                <!-- =================================
+                     PROFILE
+                ================================== -->
+
+                <a
+                    href="{% url 'profile' %}"
+                    class="
+                        navbar-link
+                        {% if request.resolver_match.url_name == 'profile' %}
+                            active
+                        {% endif %}
+                    "
+                >
+
+                    <i class="bi bi-person-circle"></i>
+
+                    <span>
+                        โปรไฟล์
+                    </span>
+
+                </a>
+
+
+                <!-- =================================
+                     CONTACT
+                ================================== -->
+
+                <a
+                    href="{% url 'contact' %}"
+                    class="
+                        navbar-link
+                        {% if request.resolver_match.url_name == 'contact' %}
+                            active
+                        {% endif %}
+                    "
+                >
+
+                    <i class="bi bi-envelope"></i>
+
+                    <span>
+                        ติดต่อเรา
+                    </span>
+
+                </a>
+
+
+                <!-- =================================
+                     ADMIN DASHBOARD
+                     แสดงเฉพาะ Admin
+                ================================== -->
+
+                {% if user.userprofile.role == "admin" %}
+
+                    <a
+                        href="{% url 'admin_dashboard' %}"
+                        class="
+                            navbar-link
+                            {% if request.resolver_match.url_name == 'admin_dashboard' %}
+                                active
+                            {% endif %}
+                        "
+                    >
+
+                        <i class="bi bi-speedometer2"></i>
+
+                        <span>
+                            จัดการระบบ
+                        </span>
+
+                    </a>
+
+                {% endif %}
+
+
+                <!-- =================================
+                     LOGOUT
+                ================================== -->
+
+                <a
+                    href="{% url 'logout' %}"
+                    class="navbar-logout"
+                >
+
+                    <i class="bi bi-box-arrow-right"></i>
+
+                    <span>
+                        ออกจากระบบ
+                    </span>
+
+                </a>
+
+
+            {% else %}
+
+
+                <!-- =================================
+                     LOGIN
+                ================================== -->
+
+                <a
+                    href="{% url 'login' %}"
+                    class="
+                        navbar-login
+                        {% if request.resolver_match.url_name == 'login' %}
+                            active
+                        {% endif %}
+                    "
+                >
+
+                    <i class="bi bi-box-arrow-in-right"></i>
+
+                    <span>
+                        เข้าสู่ระบบ
+                    </span>
+
+                </a>
+
+
+                <!-- =================================
+                     REGISTER
+                ================================== -->
+
+                <a
+                    href="{% url 'register' %}"
+                    class="navbar-register"
+                >
+
+                    <i class="bi bi-person-plus"></i>
+
+                    <span>
+                        สมัครสมาชิก
+                    </span>
+
+                </a>
+
+
+            {% endif %}
+
+
+        </div>
+
+    </nav>
+
+
+    <!-- =========================================
+         MAIN CONTENT
+    ========================================= -->
+
+    <main class="main-content">
+
+        {% block content %}
+        {% endblock %}
+
+    </main>
+
+
+</body>
+
+</html>

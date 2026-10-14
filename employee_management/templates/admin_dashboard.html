@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block content %}
+    <h2 class="page-title">แก้ไขข้อมูลพนักงาน</h2>
+
+    <form class="edit-form" method="post">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="name">ชื่อ-นามสกุล</label>
+            <input type="text" id="name" name="name" value="{{ employee.name }}" required>
+        </div>
+        <div class="form-group">
+            <label for="email">อีเมล</label>
+            <input type="email" id="email" name="email" value="{{ employee.email }}" required>
+        </div>
+        <button type="submit" class="btn btn-primary">บันทึกการเปลี่ยนแปลง</button>
+    </form>
+{% endblock %}  

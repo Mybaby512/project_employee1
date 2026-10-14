@@ -1,0 +1,659 @@
+{% extends "base.html" %}
+
+{% block title %}
+    ติดต่อเรา | ระบบจัดการข้อมูลพนักงาน
+{% endblock %}
+
+
+{% block content %}
+
+<style>
+
+    /* =========================================
+       CONTACT PAGE
+    ========================================= */
+
+    .contact-page {
+
+        min-height:
+            calc(100vh - 68px);
+
+        background: #f5f9ff;
+
+        padding: 50px 20px;
+
+        display: flex;
+
+        justify-content: center;
+
+        align-items: center;
+
+        position: relative;
+
+        overflow: hidden;
+    }
+
+
+    /* =========================================
+       BACKGROUND DECORATION
+    ========================================= */
+
+    .contact-page::before {
+
+        content: "";
+
+        position: absolute;
+
+        width: 300px;
+
+        height: 300px;
+
+        background: #e5efff;
+
+        border-radius: 50%;
+
+        top: -130px;
+
+        right: -100px;
+    }
+
+
+    .contact-page::after {
+
+        content: "";
+
+        position: absolute;
+
+        width: 280px;
+
+        height: 280px;
+
+        background: #eaf2ff;
+
+        border-radius: 50%;
+
+        bottom: -150px;
+
+        left: -100px;
+    }
+
+
+    /* =========================================
+       CONTACT CARD
+    ========================================= */
+
+    .contact-card {
+
+        width: 100%;
+
+        max-width: 720px;
+
+        background: #ffffff;
+
+        border-radius: 20px;
+
+        padding: 45px 50px;
+
+        box-shadow:
+            0 10px 35px
+            rgba(30, 90, 160, 0.12);
+
+        position: relative;
+
+        z-index: 1;
+    }
+
+
+    /* =========================================
+       HEADER
+    ========================================= */
+
+    .contact-header {
+
+        text-align: center;
+
+        margin-bottom: 30px;
+    }
+
+
+    .contact-icon {
+
+        width: 90px;
+
+        height: 90px;
+
+        margin:
+            0 auto 20px;
+
+        border-radius: 50%;
+
+        background: #eaf2ff;
+
+        display: flex;
+
+        justify-content: center;
+
+        align-items: center;
+
+        color: #1769e0;
+
+        font-size: 42px;
+    }
+
+
+    .contact-header h1 {
+
+        margin: 0;
+
+        color: #183b68;
+
+        font-size: 38px;
+
+        font-weight: 700;
+    }
+
+
+    .contact-header p {
+
+        margin-top: 12px;
+
+        color: #718096;
+
+        font-size: 17px;
+
+        line-height: 1.6;
+    }
+
+
+    /* =========================================
+       DIVIDER
+    ========================================= */
+
+    .contact-divider {
+
+        height: 2px;
+
+        background: #e4efff;
+
+        margin: 30px 0;
+    }
+
+
+    /* =========================================
+       CONTACT LIST
+    ========================================= */
+
+    .contact-list {
+
+        display: flex;
+
+        flex-direction: column;
+
+        gap: 24px;
+    }
+
+
+    /* =========================================
+       CONTACT ITEM
+    ========================================= */
+
+    .contact-item {
+
+        display: flex;
+
+        align-items: center;
+
+        gap: 20px;
+
+        padding: 5px 0;
+    }
+
+
+    /* =========================================
+       CONTACT ICON
+    ========================================= */
+
+    .contact-item-icon {
+
+        min-width: 68px;
+
+        width: 68px;
+
+        height: 68px;
+
+        border-radius: 50%;
+
+        display: flex;
+
+        align-items: center;
+
+        justify-content: center;
+
+        font-size: 28px;
+    }
+
+
+    .icon-name {
+
+        background: #e6efff;
+
+        color: #1769e0;
+    }
+
+
+    .icon-email {
+
+        background: #e6f8ee;
+
+        color: #15945a;
+    }
+
+
+    .icon-phone {
+
+        background: #eee7ff;
+
+        color: #7048d8;
+    }
+
+
+    /* =========================================
+       CONTACT CONTENT
+    ========================================= */
+
+    .contact-item-content {
+
+        flex: 1;
+
+        min-width: 0;
+    }
+
+
+    .contact-item-content .label {
+
+        display: block;
+
+        color: #17375f;
+
+        font-size: 18px;
+
+        font-weight: 700;
+
+        margin-bottom: 5px;
+    }
+
+
+    .contact-item-content .value {
+
+        color: #718096;
+
+        font-size: 16px;
+
+        line-height: 1.5;
+
+        word-break: break-word;
+    }
+
+
+    /* =========================================
+       BACK HOME BUTTON
+    ========================================= */
+
+    .back-home {
+
+        display: flex;
+
+        justify-content: center;
+
+        margin-top: 35px;
+    }
+
+
+    .back-home a {
+
+        min-width: 250px;
+
+        padding: 14px 25px;
+
+        background: #1769e0;
+
+        color: #ffffff;
+
+        text-decoration: none;
+
+        border-radius: 30px;
+
+        text-align: center;
+
+        font-size: 18px;
+
+        font-weight: 600;
+
+        box-shadow:
+            0 6px 15px
+            rgba(23, 105, 224, 0.25);
+
+        transition:
+            all 0.25s ease;
+    }
+
+
+    .back-home a:hover {
+
+        background: #0d56bd;
+
+        transform:
+            translateY(-2px);
+
+        box-shadow:
+            0 9px 20px
+            rgba(23, 105, 224, 0.35);
+    }
+
+
+    /* =========================================
+       RESPONSIVE TABLET
+    ========================================= */
+
+    @media (max-width: 768px) {
+
+        .contact-page {
+
+            padding: 30px 15px;
+        }
+
+
+        .contact-card {
+
+            padding: 35px 25px;
+
+            border-radius: 16px;
+        }
+
+
+        .contact-header h1 {
+
+            font-size: 32px;
+        }
+
+
+        .contact-header p {
+
+            font-size: 15px;
+        }
+
+
+        .contact-item {
+
+            gap: 15px;
+        }
+
+
+        .contact-item-icon {
+
+            min-width: 55px;
+
+            width: 55px;
+
+            height: 55px;
+
+            font-size: 23px;
+        }
+
+
+        .contact-item-content .label {
+
+            font-size: 16px;
+        }
+
+
+        .contact-item-content .value {
+
+            font-size: 14px;
+        }
+
+    }
+
+
+    /* =========================================
+       RESPONSIVE MOBILE
+    ========================================= */
+
+    @media (max-width: 480px) {
+
+        .contact-card {
+
+            padding: 30px 20px;
+        }
+
+
+        .contact-icon {
+
+            width: 75px;
+
+            height: 75px;
+
+            font-size: 34px;
+        }
+
+
+        .contact-header h1 {
+
+            font-size: 28px;
+        }
+
+
+        .contact-header p {
+
+            font-size: 14px;
+        }
+
+
+        .contact-item {
+
+            align-items: flex-start;
+        }
+
+
+        .contact-item-icon {
+
+            min-width: 48px;
+
+            width: 48px;
+
+            height: 48px;
+
+            font-size: 20px;
+        }
+
+
+        .contact-item-content .label {
+
+            font-size: 15px;
+        }
+
+
+        .contact-item-content .value {
+
+            font-size: 13px;
+        }
+
+
+        .back-home a {
+
+            width: 100%;
+
+            min-width: 0;
+        }
+
+    }
+
+</style>
+
+
+<!-- =========================================
+     CONTACT PAGE
+========================================= -->
+
+<div class="contact-page">
+
+
+    <div class="contact-card">
+
+
+        <!-- =====================================
+             HEADER
+        ====================================== -->
+
+        <div class="contact-header">
+
+
+            <div class="contact-icon">
+
+                <i class="bi bi-envelope-fill"></i>
+
+            </div>
+
+
+            <h1>
+                ติดต่อเรา
+            </h1>
+
+
+            <p>
+                ข้อมูลผู้จัดทำระบบและช่องทางสำหรับติดต่อสอบถาม
+            </p>
+
+
+        </div>
+
+
+        <div class="contact-divider"></div>
+
+
+        <!-- =====================================
+             CONTACT INFORMATION
+        ====================================== -->
+
+        <div class="contact-list">
+
+
+            <!-- =================================
+                 NAME
+            ================================== -->
+
+            <div class="contact-item">
+
+
+                <div class="contact-item-icon icon-name">
+
+                    <i class="bi bi-person-fill"></i>
+
+                </div>
+
+
+                <div class="contact-item-content">
+
+                    <span class="label">
+                        ชื่อ
+                    </span>
+
+                    <span class="value">
+                        อันนา กลั่นรูป
+                    </span>
+
+                </div>
+
+
+            </div>
+
+
+            <!-- =================================
+                 EMAIL
+            ================================== -->
+
+            <div class="contact-item">
+
+
+                <div class="contact-item-icon icon-email">
+
+                    <i class="bi bi-envelope-fill"></i>
+
+                </div>
+
+
+                <div class="contact-item-content">
+
+                    <span class="label">
+                        อีเมล
+                    </span>
+
+                    <span class="value">
+                        a0n0n0a5@gmail.com
+                    </span>
+
+                </div>
+
+
+            </div>
+
+
+            <!-- =================================
+                 PHONE
+            ================================== -->
+
+            <div class="contact-item">
+
+
+                <div class="contact-item-icon icon-phone">
+
+                    <i class="bi bi-telephone-fill"></i>
+
+                </div>
+
+
+                <div class="contact-item-content">
+
+                    <span class="label">
+                        เบอร์โทรศัพท์
+                    </span>
+
+                    <span class="value">
+                        0629548079
+                    </span>
+
+                </div>
+
+
+            </div>
+
+
+        </div>
+
+
+        <!-- =====================================
+             BACK HOME
+        ====================================== -->
+
+        <div class="back-home">
+
+            <a href="{% url 'index' %}">
+
+                <i class="bi bi-arrow-left"></i>
+
+                &nbsp;&nbsp;
+
+                กลับหน้าหลัก
+
+            </a>
+
+        </div>
+
+
+    </div>
+
+</div>
+
+
+{% endblock %}
+
